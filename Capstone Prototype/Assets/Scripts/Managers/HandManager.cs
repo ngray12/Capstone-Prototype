@@ -44,7 +44,7 @@ public class HandManager : MonoBehaviour
 
     private void Update()
     {
-        UpdateHandVisuals();
+        //UpdateHandVisuals();
     }
 
     public void UpdateHandVisuals()

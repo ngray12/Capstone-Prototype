@@ -17,6 +17,12 @@ public class DeckManager : MonoBehaviour
         Card[] cards = Resources.LoadAll<Card>("Decks/Warrior Deck");
 
         allCards.AddRange(cards);
+
+        HandManager handManager = FindAnyObjectByType<HandManager>();
+        for (int i = 0; i < 6; i++)
+        {
+            DrawCard(handManager);
+        }
     }
 
     public void DrawCard(HandManager handManager) 
