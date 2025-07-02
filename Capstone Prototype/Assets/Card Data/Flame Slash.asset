@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Flame Slash
   m_EditorClassIdentifier: 
   cardName: Flame Slash
-  cost: 0
+  cost: 2
   cardDescription: Deal 5 Physical Damage and 5 Fire Damage
   classDeck: 00000000
   isRanged: 0
