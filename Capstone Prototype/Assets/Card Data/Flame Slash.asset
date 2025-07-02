@@ -12,8 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 598ca9fa68d40f54a925cbb70f3485cd, type: 3}
   m_Name: Flame Slash
   m_EditorClassIdentifier: 
-  cardName: 
+  cardName: Flame Slash
   cost: 0
-  cardDescription: 
+  cardDescription: Deal 5 Physical Damage and 5 Fire Damage
+  classDeck: 00000000
   isRanged: 0
-  damageInstances: []
+  isAOE: 0
+  damageInstances:
+  - damageAmmount: 5
+    damageType: 0
+  - damageAmmount: 5
+    damageType: 1

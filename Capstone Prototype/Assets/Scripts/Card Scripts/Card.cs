@@ -13,6 +13,7 @@ namespace Cardlike
         public string cardName;
         public int cost;
         public string cardDescription;
+        public List<ClassDeck> classDeck;
 
         public abstract CardType GetCardType();
 
@@ -29,6 +30,9 @@ namespace Cardlike
 
     }
 
-
+    public enum ClassDeck
+    {
+        Warrior,Cleric,Rouge,Paladin,Pirate,Inquisitor
+    }
 
 }

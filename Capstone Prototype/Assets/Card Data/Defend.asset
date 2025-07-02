@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1adbd6d3805b9246a1975c71eeb1669, type: 3}
   m_Name: Defend
   m_EditorClassIdentifier: 
-  cardName: 
-  cost: 0
-  cardDescription: 
-  skillNum1: 0
+  cardName: Defend
+  cost: 1
+  cardDescription: Block 5 Damage
+  skillNum1: 5
   skillNum2: 0
   skillNum3: 0
