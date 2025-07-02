@@ -492,8 +492,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ef93b34a520b424ebaefcd026d3d367, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  allCards:
-  - {fileID: 11400000, guid: 8b9816208dc035f46a3c72c997380d72, type: 2}
+  allCards: []
 --- !u!1 &1314341073
 GameObject:
   m_ObjectHideFlags: 0
@@ -627,6 +626,7 @@ MonoBehaviour:
   handSpread: -15
   cardSpacing: 175
   verticalSpacing: 100
+  maxHandSize: 12
   cardsInHand: []
 --- !u!1 &1825854283
 GameObject:

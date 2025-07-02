@@ -11,6 +11,14 @@ public class DeckManager : MonoBehaviour
 
     private int currentIndex = 0;
 
+    private void Start()
+    {
+        //Load Card Assets
+        Card[] cards = Resources.LoadAll<Card>("Decks/Warrior Deck");
+
+        allCards.AddRange(cards);
+    }
+
     public void DrawCard(HandManager handManager) 
     {
         if (allCards.Count == 0)
