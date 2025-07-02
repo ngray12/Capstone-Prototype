@@ -15,6 +15,7 @@ MonoBehaviour:
   cardName: Defend
   cost: 1
   cardDescription: Block 5 Damage
+  classDeck: 00000000
   skillNum1: 5
   skillNum2: 0
   skillNum3: 0
