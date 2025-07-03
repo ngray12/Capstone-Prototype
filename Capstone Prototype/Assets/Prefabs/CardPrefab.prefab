@@ -122,6 +122,7 @@ MonoBehaviour:
   playPosition: {x: -750, y: 675, z: 0}
   glowEffect: {fileID: 7181878685822208914}
   playArrow: {fileID: 2551461834825316053}
+  cardFlick: {fileID: 8300000, guid: 98eaf683a9a6bb849996fd059660a2ca, type: 3}
 --- !u!1 &2379529231140316947
 GameObject:
   m_ObjectHideFlags: 0

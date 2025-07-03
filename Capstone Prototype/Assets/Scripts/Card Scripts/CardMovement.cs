@@ -25,6 +25,7 @@ public class CardMovement : MonoBehaviour, IDragHandler, IPointerDownHandler, IP
     [SerializeField] private GameObject glowEffect;
     [SerializeField] private GameObject playArrow;
 
+    [SerializeField] private AudioClip cardFlick;
 
     private void Awake()
     {
@@ -82,6 +83,8 @@ public class CardMovement : MonoBehaviour, IDragHandler, IPointerDownHandler, IP
             originalScale = rectTransform.localScale;
 
             currentState = 1;
+
+            AudioManager.instance.PlaySoundFXClip(cardFlick, transform, 1f);
         }
         
     }
