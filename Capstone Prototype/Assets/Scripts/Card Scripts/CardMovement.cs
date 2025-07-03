@@ -10,7 +10,8 @@ public class CardMovement : MonoBehaviour, IDragHandler, IPointerDownHandler, IP
     private Vector3 originalPanelLocalPosition;
     private Vector3 originalScale;
 
-    private int currentState = 0;
+    
+    [SerializeField]private int currentState = 0;
 
     private Quaternion originalRotation;
     private Vector3 originalPosition;
