@@ -13,15 +13,26 @@ namespace CMIYC
         public float jumpSpeed = 7.5f;
         [Range(0f, 1f)] public float groundDecay = 0.8f;
         [Range(0f, 1f)] public float airControl = 0.4f;
+        private bool facingRight = true;
+
+        [Header("Jump Physics")]
+        public float fallMultiplier = 2.5f;     // Faster fall
+        public float lowJumpMultiplier = 4f;    // Short hop control
 
         [Header("Jump Assistance")]
-        public float coyoteTime = 0.12f;      // Time after leaving ground to still jump
-        public float jumpBufferTime = 0.12f;  // Time before landing to store a jump
+        public float coyoteTime = 0.12f;
+        public float jumpBufferTime = 0.12f;
 
         [Header("References")]
         public Rigidbody2D body;
         public BoxCollider2D groundCheck;
         public LayerMask groundMask;
+
+        [Header("Encumberance")]
+        [SerializeField] private float totalEncumberance = 0f;
+        public float maxEncumberance = 10f;
+
+        public Transform lootSack;
 
         bool grounded;
         float coyoteCounter;
@@ -30,14 +41,11 @@ namespace CMIYC
 
         void Update()
         {
-            // Horizontal input — raw for snappy control
             xInput = Input.GetAxisRaw("Horizontal");
 
-            // Jump input — buffer the press
             if (Input.GetButtonDown("Jump"))
                 jumpBufferCounter = jumpBufferTime;
 
-            // Reduce jump buffer over time
             jumpBufferCounter -= Time.deltaTime;
         }
 
@@ -46,6 +54,7 @@ namespace CMIYC
             CheckGround();
             HandleCoyoteTime();
             MoveWithInput();
+            ApplyBetterJumpPhysics();
             ApplyFriction();
         }
 
@@ -68,35 +77,79 @@ namespace CMIYC
 
         void MoveWithInput()
         {
+            float t = Mathf.Clamp01(totalEncumberance / maxEncumberance);
+            float minSpeedMult = 0.12f; // ~12% of base speed at max encumbrance
+            float speedMult = Mathf.Lerp(1f, minSpeedMult, t * t); // squared for sharper slowdown
+            float jumpMult = speedMult;
+
+            float currentMoveSpeed = moveSpeed * speedMult;
+            float currentJumpSpeed = jumpSpeed * jumpMult;
+
+            // Then use these when moving:
             if (grounded)
-            {
-                // Full control on ground
-                body.velocity = new Vector2(xInput * moveSpeed, body.velocity.y);
-            }
+                body.velocity = new Vector2(xInput * currentMoveSpeed, body.velocity.y);
             else
-            {
-                // Air control — gradual steering
-                float targetX = xInput * moveSpeed;
                 body.velocity = new Vector2(
-                    Mathf.Lerp(body.velocity.x, targetX, airControl),
+                    Mathf.Lerp(body.velocity.x, xInput * currentMoveSpeed, airControl),
                     body.velocity.y
                 );
-            }
 
-            // Jumping — only if coyote time or grounded, and jump was buffered
+            // For jump:
             if (jumpBufferCounter > 0 && coyoteCounter > 0)
             {
-                body.velocity = new Vector2(0f, jumpSpeed); // Zero X on launch for snappy jumps
-                jumpBufferCounter = 0; // Reset buffer
+                body.velocity = new Vector2(body.velocity.x, currentJumpSpeed);
+                jumpBufferCounter = 0;
             }
+
+            if (xInput > 0 && !facingRight)
+            {
+                Flip();
+            }
+            else if (xInput < 0 && facingRight)
+            {
+                Flip();
+            }
+        }
+
+        void ApplyBetterJumpPhysics()
+        {
+            // If falling — make it faster
+            if (body.velocity.y < 0)
+                body.velocity += Vector2.up * Physics2D.gravity.y * (fallMultiplier - 1) * Time.fixedDeltaTime;
+
+            // If rising but jump not held — short hop
+            else if (body.velocity.y > 0 && !Input.GetButton("Jump"))
+                body.velocity += Vector2.up * Physics2D.gravity.y * (lowJumpMultiplier - 1) * Time.fixedDeltaTime;
         }
 
         void ApplyFriction()
         {
             if (grounded && xInput == 0)
-            {
                 body.velocity = new Vector2(body.velocity.x * groundDecay, body.velocity.y);
+        }
+
+        void Flip()
+        {
+            facingRight = !facingRight;
+            Vector3 scale = transform.localScale;
+            scale.x *= -1;
+            transform.localScale = scale;
+        }
+
+        public void AddEncumberance(float weight)
+        {
+            float encumbranceFactor = Mathf.Clamp01(1f - (weight / 100f));
+            moveSpeed = moveSpeed * (0.2f + (0.8f * encumbranceFactor));
+        }
+
+        private void UpdateLootSackVisual()
+        {
+            if (lootSack != null)
+            {
+                float scaleMult = 1f + (totalEncumberance / maxEncumberance) * 0.5f;
+                lootSack.localScale = new Vector3(scaleMult, scaleMult, 1f);
             }
         }
+        
     }
 }
