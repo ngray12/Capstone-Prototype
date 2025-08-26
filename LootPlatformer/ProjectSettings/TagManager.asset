@@ -8,14 +8,14 @@ TagManager:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - player
+  - 
   - Water
   - UI
+  - Player
+  - Sack
   - Terrain
-  - enemies
-  - alarms
-  - bag
   - Treasure
+  - 
   - 
   - 
   - 
