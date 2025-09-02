@@ -208,7 +208,7 @@ GameObject:
   - component: {fileID: 118810988941070377}
   m_Layer: 6
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -379,7 +379,7 @@ MonoBehaviour:
   groundCheck: {fileID: 1329501732263367888}
   groundMask:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 256
   lootSack: {fileID: 8866371363659399451}
 --- !u!1 &8147693763358737352
 GameObject:
@@ -433,7 +433,8 @@ MonoBehaviour:
   swayAmount: 10
   swaySpeed: 5
   totalEncumbrance: 0
-  maxEncumbrance: 10
+  maxEncumbrance: 50
+  treasures: []
 --- !u!70 &5234173517380476476
 CapsuleCollider2D:
   m_ObjectHideFlags: 0

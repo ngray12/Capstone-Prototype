@@ -15,6 +15,7 @@ namespace CMIYC
 
         private void Start()
         {
+            if (prefab == null) prefab = gameObject;
             SetPickupDelay(pickupDelay);
         }
 
@@ -31,11 +32,16 @@ namespace CMIYC
 
         private void OnTriggerEnter2D(Collider2D collision)
         {
+            if (!canBePickedUp) return;
+
             PlayerController2D player = collision.GetComponent<PlayerController2D>();
             if (player != null && player.lootSack != null)
             {
+                // Add THIS treasure to the sack
                 player.lootSack.AddTreasure(this);
-                Destroy(gameObject); 
+
+                // Destroy the pickup object in the scene
+                gameObject.SetActive(false);
             }
         }
     }

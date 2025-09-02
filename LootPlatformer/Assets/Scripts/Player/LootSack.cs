@@ -1,4 +1,3 @@
-using CMIYC;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -23,6 +22,8 @@ namespace CMIYC
 
         private PlayerController2D player;
         private float currentTilt;
+
+        [SerializeField]
         private List<Treasure> treasures = new List<Treasure>();
 
         private void Start()
@@ -61,9 +62,10 @@ namespace CMIYC
                 Vector3 dropOffset = player.facingRight ? Vector3.left : Vector3.right;
                 dropOffset *= 1.0f;
                 GameObject dropped = Instantiate(t.prefab, player.transform.position + dropOffset, Quaternion.identity);
-                
+                dropped.SetActive(true);
+
                 Treasure droppedTreasure = dropped.GetComponent<Treasure>();
-                if (dropped != null)
+                if (droppedTreasure != null)
                 {
                     droppedTreasure.SetPickupDelay(0.5f);
                 }
@@ -79,18 +81,15 @@ namespace CMIYC
         {
             if (sackVisual == null) return;
 
-            // Base growth values
             float yScale = 1f + totalEncumbrance * sizePerWeight;        // taller with weight
             float xScale = 1f + totalEncumbrance * sizePerWeight * 0.5f; // less wide growth
 
-            // Apply scale to the visual only
             sackVisual.localScale = new Vector3(xScale, yScale, 1f);
 
-            // Optional: resize and reposition collider
             if (sackCollider != null)
             {
                 sackCollider.size = new Vector2(xScale, yScale);
-                sackCollider.offset = new Vector2(0f, -yScale / 2f); // aligns with hanging pivot
+                sackCollider.offset = new Vector2(0f, -yScale / 2f);
             }
         }
 
@@ -98,19 +97,13 @@ namespace CMIYC
         {
             if (player == null || sackVisual == null) return;
 
-            // Use player's horizontal velocity to determine sway direction and magnitude
             float horizontalVelocity = player.body.velocity.x;
-
-            // Combine facing direction for more natural swing
             float facingFactor = player.facingRight ? 1f : -1f;
 
-            // Target tilt: bag swings opposite to movement direction
             float targetTilt = -horizontalVelocity * swayAmount * facingFactor;
 
-            // Smoothly interpolate to target tilt
             currentTilt = Mathf.Lerp(currentTilt, targetTilt, Time.deltaTime * swaySpeed);
 
-            // Apply rotation to sack
             sackVisual.localRotation = Quaternion.Euler(0f, 0f, currentTilt);
         }
     }

@@ -3,7 +3,8 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Killbox
   layers:
   - Default
   - TransparentFX
@@ -38,6 +39,21 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: WBG
+    uniqueID: 4218418937
+    locked: 0
+  - name: BG
+    uniqueID: 3940218317
+    locked: 0
+  - name: MG
+    uniqueID: 1235965131
+    locked: 0
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: PLAYER
+    uniqueID: 1424813847
+    locked: 0
+  - name: FG
+    uniqueID: 1664026551
     locked: 0
