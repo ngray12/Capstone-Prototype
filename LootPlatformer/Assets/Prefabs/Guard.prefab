@@ -175,8 +175,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65b4f25dd5543ae478ff6bdc58d53dfc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 8
-  jumpForce: 8
+  moveSpeed: 10
+  jumpForce: 7
   maxJumpHeight: 20
   player: {fileID: 0}
   groundMask:
