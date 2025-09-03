@@ -177,7 +177,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 10
   jumpForce: 7
-  maxJumpHeight: 20
+  maxJumpHeight: 13
   player: {fileID: 0}
   groundMask:
     serializedVersion: 2
@@ -185,8 +185,8 @@ MonoBehaviour:
   groundCheck: {fileID: 1964273589774837445}
   groundCheckRadius: 0.1
   frontCheck: {fileID: 4205224473016417471}
-  lookDistance: 2
-  jumpCooldown: 0.2
+  lookDistance: 5
+  jumpCooldown: 0.1
   slopeCheckDistance: 0.2
 --- !u!70 &7797827569453551104
 CapsuleCollider2D:

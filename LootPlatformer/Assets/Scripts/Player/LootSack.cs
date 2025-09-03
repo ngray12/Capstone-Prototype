@@ -41,6 +41,9 @@ namespace CMIYC
 
             if (player != null)
                 player.SetEncumbrance(totalEncumbrance);
+
+            if (GameManager.Instance != null)
+                GameManager.Instance.score = Mathf.RoundToInt(totalEncumbrance);
         }
 
         public bool HasTreasure()
@@ -75,6 +78,9 @@ namespace CMIYC
 
             if (player != null)
                 player.SetEncumbrance(totalEncumbrance);
+
+            if (GameManager.Instance != null)
+                GameManager.Instance.score = Mathf.RoundToInt(totalEncumbrance);
         }
 
         private void UpdateSackSize()

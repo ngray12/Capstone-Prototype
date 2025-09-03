@@ -433,7 +433,7 @@ MonoBehaviour:
   swayAmount: 10
   swaySpeed: 5
   totalEncumbrance: 0
-  maxEncumbrance: 50
+  maxEncumbrance: 40
   treasures: []
 --- !u!70 &5234173517380476476
 CapsuleCollider2D:

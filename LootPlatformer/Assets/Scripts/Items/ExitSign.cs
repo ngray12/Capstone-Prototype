@@ -26,6 +26,7 @@ public class ExitSign : MonoBehaviour
                 spawner.StopRespawning();
             }
 
+            GameManager.Instance.gameWin = true;
             GameManager.Instance.EndScene();
         }
     }

@@ -126,6 +126,7 @@ public class EnemyChase : MonoBehaviour
         {
             Debug.Log("Player caught! Game Over!");
             StopChase();
+            GameManager.Instance.gameWin = false;
             GameManager.Instance.EndScene();
         }
     }

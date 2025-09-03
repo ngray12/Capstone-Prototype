@@ -46,7 +46,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyPrefab: {fileID: 1397417507192192341, guid: 9963e0d5aa36b6c40815cdd11b4f4d72, type: 3}
   spawnDelay: 4
-  behindDistance: 11
+  behindDistance: 8
   yOffset: 3
   randomXRange: 2
   maxChaseDistance: 20
