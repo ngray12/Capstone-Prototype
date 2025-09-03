@@ -45,9 +45,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyPrefab: {fileID: 1397417507192192341, guid: 9963e0d5aa36b6c40815cdd11b4f4d72, type: 3}
-  playerController: {fileID: 118810988941070377, guid: 2cfdbd901f6619544ae7fb3d809821fa, type: 3}
   spawnDelay: 4
   behindDistance: 11
+  yOffset: 3
+  randomXRange: 2
+  maxChaseDistance: 20
   groundMask:
     serializedVersion: 2
     m_Bits: 256

@@ -6,6 +6,12 @@ using UnityEngine.SceneManagement;
 
 public class KillBox : MonoBehaviour
 {
+    private GameManager gameManager;
+    private void Start()
+    {
+        gameManager = FindObjectOfType<GameManager>();
+    }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         // Enemy falls
@@ -22,7 +28,7 @@ public class KillBox : MonoBehaviour
         if (player != null)
         {
             Debug.Log("Player fell! Game Over!");
-            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+            gameManager.EndScene();
         }
     }
 }

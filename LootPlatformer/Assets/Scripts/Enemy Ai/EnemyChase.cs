@@ -28,9 +28,15 @@ public class EnemyChase : MonoBehaviour
     private bool active = true;
     private float nextJumpTime = 0f;
 
+    private void Awake()
+    {
+        GameManager gameManager = GameManager.Instance;
+        
+    }
     void Start()
     {
         body = GetComponent<Rigidbody2D>();
+        
     }
 
     void FixedUpdate()
@@ -120,6 +126,7 @@ public class EnemyChase : MonoBehaviour
         {
             Debug.Log("Player caught! Game Over!");
             StopChase();
+            GameManager.Instance.EndScene();
         }
     }
 }

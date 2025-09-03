@@ -131,6 +131,17 @@ namespace CMIYC
             transform.localScale = scale;
         }
 
+        public void Freeze()
+        {
+            if (body != null)
+            {
+                body.velocity = Vector3.zero;
+                body.freezeRotation = false;
+            }
+
+            this.enabled = false;
+        }
+
         // Called by LootSack
         public void SetEncumbrance(float weight)
         {
