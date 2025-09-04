@@ -210,6 +210,7 @@ public class GameManager : MonoBehaviour
 
         if (!gameWin && endScene_UI_LOSE != null)
         {
+            levelUI.SetActive(false);
             endScene_UI_LOSE.SetActive(true);
         }
     }
