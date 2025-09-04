@@ -23,6 +23,8 @@ public class GameManager : MonoBehaviour
     public bool inGame = false;
 
     [Header("UI ITEMS")]
+    public GameObject levelUI;
+    public InGameUI inLevelUI;
     public GameObject endScene_UI_LOSE;
     public EndLoseUI endLoseUI;
     public GameObject endScene_UI_WIN;
@@ -62,23 +64,32 @@ public class GameManager : MonoBehaviour
 
         Scene current = SceneManager.GetActiveScene();
 
-        if(current.name != "Main Menu" && current.name != "Level Select")
+        if (current.name != "Main Menu" && current.name != "Level Select")
+        {
             inGame = true;
+        }else
+        {
+            inGame=false;
+        }
 
         if (inGame)
         {
             // Refresh UI references in the new scene
             endLoseUI = FindObjectOfType<EndLoseUI>(true);
             endWinUI = FindObjectOfType<EndWinUI>(true);
+            inLevelUI = FindObjectOfType<InGameUI>(true);
 
             if (endLoseUI != null)
                 endScene_UI_LOSE = endLoseUI.gameObject;
+
+            if(inLevelUI != null)
+                levelUI = inLevelUI.gameObject;
 
             if (endWinUI != null)
             {
                 endScene_UI_WIN = endWinUI.gameObject;
                 scoreText = endWinUI.scoreText;
-                globalScoreText = endWinUI.globalaScoreText;
+                globalScoreText = endWinUI.globalScoreText;
                 timerText = endWinUI.timerText;
 
                 if (endWinUI.restartButton != null)
@@ -149,7 +160,7 @@ public class GameManager : MonoBehaviour
     {
         if (!gameActive) return;
 
-        if (inGame)
+        if (inGame && !gamePaused)
         {
             // Track time
             timeElapsed += Time.deltaTime;
@@ -189,10 +200,11 @@ public class GameManager : MonoBehaviour
 
             int minutes = Mathf.FloorToInt(timeElapsed / 60f);
             int seconds = Mathf.FloorToInt(timeElapsed % 60f);
-            int millis = Mathf.FloorToInt((timeElapsed * 10f) % 10f);
-            timerText.text = $"Time: {minutes:00}:{seconds:00}.{millis}";
-
+            int millis = Mathf.FloorToInt((timeElapsed * 100f) % 100f);
+            timerText.text = $"Time: {minutes:00}:{seconds:00}.{millis:00}";
+            levelUI.SetActive(false);
             endScene_UI_WIN.SetActive(true);
+
         }
 
 

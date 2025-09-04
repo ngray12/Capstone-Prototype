@@ -23,6 +23,12 @@ public class EnemyChase : MonoBehaviour
     public float jumpCooldown = 0.2f;      // delay between jumps
     public float slopeCheckDistance = 0.2f;
 
+    [Header("Jump Fails")]
+    public int maxConsecutiveFailedJumps = 3;  // max jumps in a row before backing up
+    public float stepBackDistance = 0.3f;      // small back-up distance
+    private int failedJumpCount = 0;
+    private float lastJumpX = 0f;
+
     private Rigidbody2D body;
     private bool facingRight = true;
     private bool active = true;
@@ -31,12 +37,11 @@ public class EnemyChase : MonoBehaviour
     private void Awake()
     {
         GameManager gameManager = GameManager.Instance;
-        
     }
+
     void Start()
     {
         body = GetComponent<Rigidbody2D>();
-        
     }
 
     void FixedUpdate()
@@ -55,16 +60,49 @@ public class EnemyChase : MonoBehaviour
             moveX *= 0.5f; // slow down to avoid falling
         }
 
-        // Decide if we should jump
+        // Jumping logic
         if (onGround && ShouldJump(dir) && Time.time >= nextJumpTime)
         {
-            body.velocity = new Vector2(body.velocity.x, jumpForce);
-            nextJumpTime = Time.time + jumpCooldown;
+            if (Mathf.Abs(body.velocity.x) > 0.1f) // must be moving
+            {
+                // Check if stuck in place
+                if (Mathf.Abs(transform.position.x - lastJumpX) < 0.05f)
+                {
+                    failedJumpCount++;
+                }
+                else
+                {
+                    failedJumpCount = 0; // reset if moving
+                }
+
+                lastJumpX = transform.position.x;
+
+                if (failedJumpCount >= maxConsecutiveFailedJumps)
+                {
+                    // Small back-up in opposite direction
+                    body.position += Vector2.left * Mathf.Sign(dir) * stepBackDistance;
+                    failedJumpCount = 0;
+                    nextJumpTime = Time.time + jumpCooldown * 1.5f; // wait a bit
+                }
+                else
+                {
+                    // Normal jump
+                    body.velocity = new Vector2(body.velocity.x, jumpForce);
+                    nextJumpTime = Time.time + jumpCooldown * 1.5f;
+                }
+            }
         }
 
-        // Adjust horizontal speed (slightly slower in air for control)
-        float speedFactor = onGround ? 1f : 0.85f;
-        body.velocity = new Vector2(moveX * speedFactor, body.velocity.y);
+        // Movement only while grounded
+        if (onGround)
+        {
+            body.velocity = new Vector2(moveX, body.velocity.y);
+        }
+        else
+        {
+            // In air  don’t steer horizontally
+            body.velocity = new Vector2(body.velocity.x, body.velocity.y);
+        }
 
         // Flip sprite
         if (dir > 0 && !facingRight) Flip();
@@ -75,6 +113,7 @@ public class EnemyChase : MonoBehaviour
     {
         Vector2 origin = frontCheck.position;
         float[] heights = { 0f, 0.5f, 1f }; // ray heights above frontCheck
+        float minObstacleDistance = 0.2f;    // must be at least this far to jump
 
         // Check for obstacles
         foreach (float h in heights)
@@ -83,9 +122,11 @@ public class EnemyChase : MonoBehaviour
             RaycastHit2D hit = Physics2D.Raycast(rayStart, Vector2.right * Mathf.Sign(dir), lookDistance, groundMask);
             if (hit.collider != null)
             {
+                float dist = hit.distance;
                 float heightDiff = hit.collider.bounds.max.y - transform.position.y;
-                if (heightDiff > 0.1f && heightDiff <= maxJumpHeight)
-                    return true; // obstacle is jumpable
+
+                if (dist > minObstacleDistance && heightDiff > 0.1f && heightDiff <= maxJumpHeight)
+                    return true;
             }
         }
 
@@ -93,7 +134,7 @@ public class EnemyChase : MonoBehaviour
         Vector2 gapOrigin = origin + Vector2.right * Mathf.Sign(dir) * 0.5f;
         RaycastHit2D groundAhead = Physics2D.Raycast(gapOrigin, Vector2.down, 2f, groundMask);
         if (groundAhead.collider == null && Mathf.Abs(dir) > 0.5f)
-            return true; // gap is far enough to warrant jump
+            return true;
 
         return false;
     }

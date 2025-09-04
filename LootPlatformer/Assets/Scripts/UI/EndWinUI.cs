@@ -10,7 +10,7 @@ public class EndWinUI : MonoBehaviour
     public Button nextLevelButton;
 
     public TextMeshProUGUI scoreText;
-    public TextMeshProUGUI globalaScoreText;
+    public TextMeshProUGUI globalScoreText;
     public TextMeshProUGUI timerText;
 
     private void Awake()
